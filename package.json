@@ -1,0 +1,68 @@
+{
+  "name": "x-create",
+  "version": "1.0.0",
+  "description": "🛠️ The recommended way to start a Vite-powered Vue project",
+  "type": "module",
+  "packageManager": "pnpm@10.4.1",
+  "bin": {
+    "create-vue": "outfile.cjs"
+  },
+  "files": [
+    "locales",
+    "outfile.cjs",
+    "template",
+    "!template/**/node_modules/.bin/*"
+  ],
+  "engines": {
+    "node": ">=v18.3.0"
+  },
+  "scripts": {
+    "prepare": "husky",
+    "format": "prettier --write .",
+    "build": "zx ./scripts/build.mjs",
+    "snapshot": "zx ./scripts/snapshot.mjs",
+    "pretest": "pnpm run build && pnpm run snapshot",
+    "test": "zx ./scripts/test.mjs",
+    "test:unit": "vitest",
+    "postversion": "zx ./scripts/postversion.mjs",
+    "prepublishOnly": "pnpm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuejs/create-vue.git"
+  },
+  "keywords": [],
+  "author": "Haoqun Jiang <npm@haoqun.me>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vuejs/create-vue/issues"
+  },
+  "homepage": "https://github.com/vuejs/create-vue#readme",
+  "devDependencies": {
+    "@tsconfig/node22": "^22.0.0",
+    "@types/eslint": "^9.6.1",
+    "@types/node": "^22.13.4",
+    "@types/prompts": "^2.4.9",
+    "@vue/create-eslint-config": "^0.7.3",
+    "@vue/tsconfig": "^0.7.0",
+    "ejs": "^3.1.10",
+    "esbuild": "^0.25.0",
+    "esbuild-plugin-license": "^1.2.3",
+    "husky": "^9.1.7",
+    "kleur": "^4.1.5",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.5.1",
+    "prompts": "^2.4.2",
+    "vitest": "^3.0.5",
+    "zx": "^8.3.2"
+  },
+  "lint-staged": {
+    "*.{js,ts,vue,json}": [
+      "prettier --write"
+    ]
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

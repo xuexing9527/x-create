@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 
@@ -21,6 +22,9 @@ import renderEslint from './utils/renderEslint'
 import { trimBoilerplate, removeCSSImport, emptyRouterConfig } from './utils/trimBoilerplate'
 
 import cliPackageJson from './package.json'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
+process.chdir(__dirname)
 
 function isValidPackageName(projectName) {
   return /^(?:@[a-z0-9-*~][a-z0-9-*._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/.test(projectName)
@@ -188,7 +192,7 @@ async function init() {
     ) === 'boolean'
 
   let targetDir = positionals[0]
-  const defaultProjectName = !targetDir ? 'vue-project' : targetDir
+  const defaultProjectName = !targetDir ? 'demo-project' : targetDir
 
   const forceOverwrite = argv.force
 

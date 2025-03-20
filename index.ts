@@ -22,7 +22,10 @@ import renderEslint from './utils/renderEslint'
 import { trimBoilerplate, removeCSSImport, emptyRouterConfig } from './utils/trimBoilerplate'
 
 import cliPackageJson from './package.json'
+import { isAbsolute, resolve } from 'path'
 
+// 记录原始的 cwd，用于本地调试修正 项目生成目录位置
+const originalCwd = process.cwd()
 const __dirname = dirname(fileURLToPath(import.meta.url))
 process.chdir(__dirname)
 
@@ -39,7 +42,15 @@ function toValidPackageName(projectName) {
     .replace(/[^a-z0-9-~]+/g, '-')
 }
 
+function getAbsolutePath(dir: string) {
+  const CALLER_DIR = process.env.INIT_CWD || process.cwd()
+  return isAbsolute(dir) ? dir : resolve(CALLER_DIR, dir)
+}
+
 function canSkipEmptying(dir: string) {
+  // 修正 dir 位置为绝对路径
+  if (!isAbsolute(dir)) dir = getAbsolutePath(dir)
+
   if (!fs.existsSync(dir)) {
     return true
   }
@@ -120,7 +131,7 @@ Unstable feature flags:
 `
 
 async function init() {
-  const cwd = process.cwd()
+  const cwd = originalCwd || process.cwd()
   const args = process.argv.slice(2)
 
   // // alias is not supported by parseArgs so we declare all the flags altogether

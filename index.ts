@@ -79,9 +79,9 @@ function emptyDir(dir) {
 }
 
 const helpMessage = `\
-Usage: create-vue [FEATURE_FLAGS...] [OPTIONS...] [DIRECTORY]
+Usage: x-create [FEATURE_FLAGS...] [OPTIONS...] [DIRECTORY]
 
-Create a new Vue.js project.
+Create a new project.
 Start the CLI in interactive mode when no FEATURE_FLAGS is provided, or if the DIRECTORY argument is not a valid package name.
 
 Options:
@@ -180,6 +180,8 @@ async function init() {
     process.exit(0)
   }
 
+  // 这里和 boolean 比较，为了确定用户以 boolean 值正确的方式 设置了 feature flag，则跳过 prompts，
+  // 否则仍然 prompts 提示
   // if any of the feature flags is set, we would skip the feature prompts
   const isFeatureFlagsUsed =
     typeof (
@@ -225,6 +227,11 @@ async function init() {
   } = {}
 
   console.log()
+  /**
+   *
+   * process.stdout.getColorDepth()
+   *
+   */
   console.log(
     process.stdout.isTTY && process.stdout.getColorDepth() > 8
       ? banners.gradientBanner

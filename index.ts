@@ -47,6 +47,12 @@ function getAbsolutePath(dir: string) {
   return isAbsolute(dir) ? dir : resolve(CALLER_DIR, dir)
 }
 
+/**
+ * 文件名是否存在检测
+ * @param dir
+ * @returns
+ * read
+ */
 function canSkipEmptying(dir: string) {
   // 修正 dir 位置为绝对路径
   if (!isAbsolute(dir)) dir = getAbsolutePath(dir)
@@ -134,6 +140,22 @@ async function init() {
   const cwd = originalCwd || process.cwd()
   const args = process.argv.slice(2)
 
+  /**
+   *
+   * parseArgs 是 Node.js 18+ 原生提供的 CLI 参数解析方法，类似 yargs 或 commander
+   * const args = parseArgs({
+   *  options: {
+   *    help: { type: 'boolean', alias: 'h' } // ❌ 不支持 alias
+   *  }
+   * });
+   *
+   * yargs	✅ 支持	.option('verbose', { alias: 'v', type: 'boolean' })
+   * commander	✅ 支持	.option('-v, --verbose', 'Enable verbose mode')
+   *
+   * alias
+   *
+   * read
+   */
   // // alias is not supported by parseArgs so we declare all the flags altogether
   const flags = [
     'default',
